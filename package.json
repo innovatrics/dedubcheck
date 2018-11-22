@@ -12,7 +12,8 @@
   ],
   "scripts": {
     "lint": "eslint 'bin/*.js' --max-warnings 0 || exit 0",
-    "prettier:check": "prettier -l 'bin/*.js'"
+    "prettier:check": "prettier -l 'bin/*.js'",
+    "test": "yarn run prettier:check && yarn run lint"
   },
   "dependencies": {
     "lodash": "^4.17.11"
