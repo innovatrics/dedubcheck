@@ -10,7 +10,20 @@
   "files": [
     "bin"
   ],
+  "scripts": {
+    "lint": "eslint 'bin/*.js' --max-warnings 0 || exit 0",
+    "prettier:check": "prettier -l 'bin/*.js'"
+  },
   "dependencies": {
     "lodash": "^4.17.11"
+  },
+  "devDependencies": {
+    "@innovatrics/eslint-config-innovatrics-base": "^13.1.0-build.2",
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.9.0",
+    "eslint-config-prettier": "^3.3.0",
+    "eslint-plugin-flowtype": "^3.2.0",
+    "eslint-plugin-import": "^2.14.0",
+    "prettier": "^1.15.2"
   }
 }
