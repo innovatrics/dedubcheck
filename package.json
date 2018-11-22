@@ -1,0 +1,16 @@
+{
+  "name": "dedubcheck",
+  "version": "0.0.1",
+  "author": "Innovatrics UI Team <ui-dev@innovatrics.com>",
+  "main": "bin/index.js",
+  "license": "MIT",
+  "bin": {
+    "dedubcheck": "bin/dedubcheck.js"
+  },
+  "files": [
+    "bin"
+  ],
+  "dependencies": {
+    "lodash": "^4.17.11"
+  }
+}
