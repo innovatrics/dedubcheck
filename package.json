@@ -16,7 +16,7 @@
     "test": "yarn run prettier:check && yarn run lint"
   },
   "dependencies": {
-    "lodash": "^4.17.11"
+    "lodash": "*"
   },
   "devDependencies": {
     "@innovatrics/eslint-config-innovatrics-base": "^13.1.0-build.2",
