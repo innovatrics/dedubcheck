@@ -11,7 +11,7 @@ let exceptions;
 
 try {
   // eslint-disable-next-line
-  exceptions = require(path.join(currentDir, '.dedupcheck'));
+  exceptions = require(path.join(currentDir, '.dedubcheck'));
 } catch (e) {
   exceptions = [];
 }
