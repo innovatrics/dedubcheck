@@ -1,11 +1,18 @@
 #!/usr/bin/env node
 // @flow weak
+
+const isDebug = process.argv.includes('--debug');
+if (isDebug) {
+  // eslint-disable-next-line no-console
+  console.log('dedubcheck starts');
+}
+
 const fs = require('fs');
 const path = require('path');
 const pick = require('lodash/pick');
 
 const currentDir = path.resolve(process.cwd());
-const IGNORE_PATTERN = /\/node_modules|\/.reg|\/.git|\/.vscode|\/flow-stub|\/flow-typed|\/build|\/coverage/g;
+const IGNORE_PATTERN = /(\/|\\)node_modules|(\/|\\).reg|(\/|\\).git|(\/|\\).vscode|(\/|\\)flow-stub|(\/|\\)flow-typed|(\/|\\)build|(\/|\\)coverage/g;
 
 let exceptions;
 
@@ -19,15 +26,22 @@ try {
 function getPackageJsonFiles(dir) {
   return fs.readdirSync(dir).reduce((files, file) => {
     const name = path.join(dir, file);
-    const isDirectory = fs.statSync(name).isDirectory();
+    const statSync = fs.statSync(name);
+    const isDirectory = statSync.isDirectory();
+    const isSymbolicLink = statSync.isSymbolicLink();
     const isIgnored = IGNORE_PATTERN.test(name);
-    if (isDirectory && !isIgnored) {
+    if (isDirectory && !isSymbolicLink && !isIgnored) {
       return [...files, ...getPackageJsonFiles(name)];
     }
-    return /\/package.json/g.test(name) ? [...files, name] : [...files];
+    return /(\/|\\)package.json/g.test(name) ? [...files, name] : [...files];
   }, []);
 }
 const files = getPackageJsonFiles(currentDir);
+if (isDebug) {
+  // eslint-disable-next-line no-console
+  console.log('Parsing files:', files);
+}
+
 const dependencyObject = files.reduce((acc, curr) => {
   const file = fs.readFileSync(curr).toString();
   const json = JSON.parse(file);

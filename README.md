@@ -13,3 +13,9 @@ To run this thing, just do:
 ```bash
 $ dedubcheck
 ```
+
+For some debug info:
+
+```bash
+$ dedubcheck --debug
+```
