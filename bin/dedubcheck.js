@@ -12,7 +12,7 @@ const path = require('path');
 const pick = require('lodash/pick');
 
 const currentDir = path.resolve(process.cwd());
-const IGNORE_PATTERN = /(\/|\\)node_modules|(\/|\\).reg|(\/|\\).git|(\/|\\).vscode|(\/|\\)flow-stub|(\/|\\)flow-typed|(\/|\\)build|(\/|\\)coverage/g;
+const IGNORE_PATTERN = /(\/|\\)node_modules$|(\/|\\).reg$|(\/|\\).git$|(\/|\\).vscode$|(\/|\\)flow-stub$|(\/|\\)flow-typed$|(\/|\\)build$|(\/|\\)coverage$/g;
 
 let exceptions;
 
@@ -33,7 +33,7 @@ function getPackageJsonFiles(dir) {
     if (isDirectory && !isSymbolicLink && !isIgnored) {
       return [...files, ...getPackageJsonFiles(name)];
     }
-    return /(\/|\\)package.json/g.test(name) ? [...files, name] : [...files];
+    return /(\/|\\)package.json$/g.test(name) ? [...files, name] : [...files];
   }, []);
 }
 const files = getPackageJsonFiles(currentDir);
