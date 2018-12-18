@@ -12,7 +12,8 @@ const path = require('path');
 const pick = require('lodash/pick');
 
 const currentDir = path.resolve(process.cwd());
-const IGNORE_PATTERN = /(\/|\\)node_modules$|(\/|\\).reg$|(\/|\\).git$|(\/|\\).vscode$|(\/|\\)flow-stub$|(\/|\\)flow-typed$|(\/|\\)build$|(\/|\\)coverage$/g;
+// AWARE: Do NOT use 'g' in regexp, as regex object will save state between calls
+const IGNORE_PATTERN = /(\/|\\)node_modules$|(\/|\\)\.reg$|(\/|\\)\.git$|(\/|\\)\.vscode$|(\/|\\)flow-stub$|(\/|\\)flow-typed$|(\/|\\)build$|(\/|\\)coverage$/i;
 
 let exceptions;
 
