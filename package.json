@@ -1,6 +1,6 @@
 {
   "name": "dedubcheck",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "De-Duplicate Dependency Checker for Node.js monorepos",
   "author": "Innovatrics UI Team <ui-dev@innovatrics.com>",
   "main": "bin/index.js",
@@ -29,7 +29,7 @@
     "lodash": "*"
   },
   "devDependencies": {
-    "@innovatrics/eslint-config-innovatrics-base": "^13.1.0-build.2",
+    "@innovatrics/eslint-config-innovatrics-base": "^13.1.0-build.3",
     "babel-eslint": "^10.0.1",
     "eslint": "^5.9.0",
     "eslint-config-prettier": "^3.3.0",
