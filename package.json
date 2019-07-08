@@ -1,6 +1,6 @@
 {
   "name": "dedubcheck",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "De-Duplicate Dependency Checker for Node.js monorepos",
   "author": "Innovatrics UI Team <ui-dev@innovatrics.com>",
   "main": "bin/index.js",
