@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 // @flow weak
 
+/* eslint-disable no-console */
+
 const isDebug = process.argv.includes('--debug');
 if (isDebug) {
-  // eslint-disable-next-line no-console
   console.log('dedubcheck starts');
 }
 
@@ -18,9 +19,21 @@ const IGNORE_PATTERN = /(\/|\\)node_modules$|(\/|\\)\.reg$|(\/|\\)\.git$|(\/|\\)
 let exceptions;
 
 try {
+  if (isDebug) {
+    console.log(`Looking for ".dedubcheck" exceptions file at: ${path.join(currentDir, '.dedubcheck')}`);
+  }
+
   // eslint-disable-next-line
   exceptions = require(path.join(currentDir, '.dedubcheck'));
+
+  if (isDebug) {
+    console.log('Exceptions loaded:');
+    console.dir(exceptions);
+  }
 } catch (e) {
+  if (isDebug) {
+    console.log('".dedubcheck" not found');
+  }
   exceptions = [];
 }
 
@@ -39,7 +52,6 @@ function getPackageJsonFiles(dir) {
 }
 const files = getPackageJsonFiles(currentDir);
 if (isDebug) {
-  // eslint-disable-next-line no-console
   console.log('Parsing files:', files);
 }
 
@@ -62,13 +74,27 @@ Object.keys(dependencyObject).forEach(packageJson => {
       const version = dep[key][depName];
       if (testObject[depName] != null) {
         if (version !== testObject[depName]) {
-          process.exitCode = 1;
-          throw new Error(`Dependency ${depName} has diferent versions: '${testObject[depName]}' !== '${version}'`);
+          // We have found a problem...
+          // ...but first we'll check if it is not an exception
+          const hasException = exceptions.some(exception => {
+            if (path.resolve(exception[0]) === packageJson && exception[1] === depName) {
+              if (isDebug) {
+                console.log(`Exception found: '${depName}' at '${exception[0]}'. We'll not report it as error.`);
+              }
+              return true;
+            }
+            return false;
+          });
+
+          if (hasException === false) {
+            process.exitCode = 1;
+            throw new Error(
+              `Dependency '${depName}' has diferent versions: '${
+                testObject[depName]
+              }' !== '${version}' (in ${packageJson})`,
+            );
+          }
         }
-      }
-      const exception = exceptions.find(value => path.resolve(value[0]) === packageJson);
-      if (exception != null) {
-        testObject[exception[1]] = null;
       }
       testObject[depName] = version;
     });
